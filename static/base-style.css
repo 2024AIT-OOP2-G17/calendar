@@ -1,0 +1,94 @@
+:root {
+  font-size: 14pt;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 2rem;
+  height: 90vb;
+}
+
+h1 {
+  text-align: center;
+}
+
+div {
+  width: auto;
+  text-align: center;
+}
+
+table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #aaaaaa;
+  width: 10%;
+  height: 70px;
+  vertical-align: 2px;
+  /* 上　右　下　左 */
+  padding: 3px 3px 3px 3px;
+}
+
+th {
+  border: 1px solid #aaaaaa;
+  padding: auto;
+  text-align: center;
+  background-color: rgb(167, 195, 196);
+}
+
+button {
+  font-size: 1pt;
+}
+
+.calendar {
+  height: 100%;
+  margin: 0 auto;  
+}
+
+.select {
+  display: flex;
+  justify-content: center;
+  justify-content: space-around;
+  margin: 3%;
+}
+
+.date {
+  text-align: right;
+  width: 1em;
+}
+
+.move {
+  margin: 0 20% 0 20%;
+}
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.breadcrumb {
+  padding: 0;
+  margin-bottom: 2rem;
+  list-style: none;
+}
+.breadcrumb li {
+  display: inline;
+}
+.breadcrumb li::after {
+  content: " > ";
+}
+.breadcrumb li:nth-last-child()::after {
+  content: "";
+} */
