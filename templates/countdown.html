@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>カウントダウン</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>期限の近いタスク</h1>
+    <div class="task-list">
+        {% for task in tasks %}
+        <li>
+            <div class="task-item">
+                <div class="task-title">{{task.title}}</div>
+                <div class="task-deadline">期限：{{task.month}}月{{task.day}}日</div>
+            </div>
+        </li>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+<!-- こんな感じでpythonから受け渡すつもりです
+@app.route('/countdown')
+def countdown():
+    tasks = [
+        {'title': 'タスク1', 'month': 3, 'day': 20},
+        {'title': 'タスク2', 'month': 3, 'day': 21},
+        {'title': 'タスク3', 'month': 3, 'day': 22}
+    ]
+    return render_template('countdown.html', tasks=tasks)
+-->
