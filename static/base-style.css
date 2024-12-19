@@ -43,8 +43,8 @@ button {
 }
 
 .calendar {
-  height: 100%;
-  margin: 0 auto;  
+  height: auto;
+  margin: 3% auto;  
 }
 
 .select {
