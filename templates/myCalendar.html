@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>カレンダー</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+
+
+<body>
+  <div class="calendar">
+    <h1>{{ originalName }}カレンダー</h1>
+      <table>
+        <div class="select">
+          {% if month == 1 %}
+            <button class="move">12</button>
+          {% else %}
+            <button class="move">{{ month-1 }}</button>
+          {% endif %}
+          <div>{{ month }}月</div>
+          {% if month == 12 %}
+            <button class="move">1</button>
+          {% else %}
+            <button class="move">{{ month+1 }}</button>
+          {% endif %}
+        </div>
+        <thead>
+        <tr>
+          {% for day in days %}
+            <th scope="col">{{ day }}</th>
+          {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+          {% for week in my_calendar%}
+            <tr>
+              {% for date in week %}
+                {% if date == 0 %}
+                  <td></td>
+                {% elif date == today %}
+                  <td id="today">
+                    <div>
+                      <div class="date">{{ date }}</div>
+                    </div>
+                  <button>ボタンも入る</button>
+                  </td>
+                {% else %}
+                  <td>
+                    <div>
+                      <div class="date">{{ date }}</div>
+                    </div>
+                  </td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+  <div>
+    ここらへんに期限近いやつ？？サイズ未定
+  </div>
+</body>
+</html>
