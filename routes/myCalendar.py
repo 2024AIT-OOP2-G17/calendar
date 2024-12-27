@@ -1,13 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import datetime
 import calendar
+from models.myCalendar import MyCalendar
 
 # Blueprintの作成
 myCalendar_bp = Blueprint('myCalendar', __name__, url_prefix='')
 
-
 @myCalendar_bp.route('/')
 def list():
+    calendars=MyCalendar.select()
 
     # カレンダー名
     originalName = "\"好きな名前\""
@@ -30,5 +31,15 @@ def list():
                             days = days,
                             month = month,
                             today = date,
-                            my_calendar = my_calendar
-                            )
+                            my_calendar = my_calendar,
+                            title='calendar',
+                            items=calendars)
+
+@myCalendar_bp.route('/add')
+def add():
+    if request.method=='POST':
+        name=request.form['name']
+        date=request.form['date']
+        MyCalendar.create(name=name,date=date)
+        redirect(url_for('myCalendar'))
+    return render_template('myCalendar.add')

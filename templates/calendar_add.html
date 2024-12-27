@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>予定追加</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>新しい予定を追加</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('index') }}">HOME</a></li>
+        <li><a href="{{ url_for('myCalendar') }}">予定一覧</a></li>
+        <li>予定登録</li>
+    </ul>
+    <form action="{{ url_for('calendar.add') }}" method="post">
+        <label>名前: <input type="text" name="name" required></label><br>
+        <label>日付: <input type="date" name="date" value="2025-01-01" min="2025-01-01" max="2025-01-31" required></label><br>
+        <textarea id="business" name="plan" cols="200" row="5"></textarea>
+        <button type="submit">追加</button>
+    </form>
+</body>
+</html>

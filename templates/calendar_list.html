@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>予定一覧</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>{{ originalName }}</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('myCalendar') }}">HOME</a></li>
+        <li><a href="{{ url_for('calendar.list') }}">予定一覧</a></li>
+    </ul>
+
+    <a href="{{ url_for('calendar.add') }}">新規予定追加</a>
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>予定名</th>
+                <th>日付</th>
+                <th>予定内容</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calendar in calendars %}
+            <tr>
+                <td><a href="{{ url_for('calendar.edit', originalName=originalName,name=name,date=date,plan=plan) }}">編集</a></td>
+                <td>{{ calendar.name }}</td>
+                <td>{{ calendar.date }}</td>
+                <td>{{ calendar.plan }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

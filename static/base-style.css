@@ -42,6 +42,11 @@ button {
   font-size: 1pt;
 }
 
+.planbutton{
+  font-size: 18px;
+}
+.planbutton:hover{color:gray}
+
 .calendar {
   height: auto;
   margin: 3% auto;  
@@ -61,6 +66,14 @@ button {
 
 .move {
   margin: 0 20% 0 20%;
+}
+textarea{
+  padding: 10px;
+  max-width: 100%;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
 }
 /* table {
   width: 100%;

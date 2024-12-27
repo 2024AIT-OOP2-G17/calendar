@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>予定編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>予定を編集</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('myCalendar') }}">HOME</a></li>
+        <li><a href="{{ url_for('calendar.list') }}">予定一覧</a></li>
+        <li>予定の編集</li>
+    </ul>
+
+    <form action="{{ url_for('calendar.edit',originalName=originalName,name=name,date=date,plan=plan) }}" method="post">
+        <label>予定名: 
+            <select name="calendar_id" required>
+                {% for user in users %}
+                    <option value="{{ calendar.id }}" {% if calendar.id == calendar.id %}selected{% endif %}>{{ calendar.name }}</option>
+                {% endfor %}
+            </select>
+        </label><br>
+        <label>予定: 
+            <select name="calendar_id" required>
+                {% for product in products %}
+                    <option value="{{ calendar.id }}" {% if order.product.id == calendar.id %}selected{% endif %}>{{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </label><br>
+        <button type="submit">保存</button>
+    </form>
+</body>
+</html>

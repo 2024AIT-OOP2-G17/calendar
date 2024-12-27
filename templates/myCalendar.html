@@ -5,8 +5,6 @@
     <title>カレンダー</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
 </head>
-
-
 <body>
   <div class="calendar">
     <h1>{{ originalName }}カレンダー</h1>
@@ -39,15 +37,15 @@
                   <td></td>
                 {% elif date == today %}
                   <td id="today">
-                    <div>
+                    <a class="planbutton" href="{{url_for('calendar.add',originalName=originalName,month=month,today=date)}}">
                       <div class="date">{{ date }}</div>
-                    </div>
-                  <button>ボタンも入る</button>
+                    </a>
                   </td>
                 {% else %}
                   <td>
-                    <div>
+                    <div class="planbutton" href="{{url_for('calendar.add',originalName=originalName,month = month,date=date)}}">
                       <div class="date">{{ date }}</div>
+                      
                     </div>
                   </td>
                 {% endif %}
