@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo追加</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>新しいToDoを追加</h1>
+
+    <form action="{{ url_for('myCalendar.add') }}" method="post">
+        <label>月: <input type="number" name="add_month" required></label><br>
+        <label>日: <input type="number" name="add_day" required></label><br>
+        <label>タイトル: <input type="text" name="add_title" required></label><br>
+        <label>内容: <input type="text" name="add_todo" required></label><br>
+        <button type="submit">追加</button>
+    </form>
+</body>
+</html>
