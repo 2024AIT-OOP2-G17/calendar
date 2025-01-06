@@ -43,7 +43,8 @@ def add():
         day = int(request.form['add_day'])
         title = request.form['add_title']
         todo = request.form['add_todo']
-        EventCalendar.create(add_month=month, add_day=day, add_title=title, add_todo=todo)
+        EventCalendar(add_month=month, add_day=day, add_title=title, add_todo=todo).save()
+
         return redirect(url_for('myCalendar.list'))
     
     return render_template('myCalendar_add.html')
