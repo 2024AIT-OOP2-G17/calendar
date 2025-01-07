@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 import datetime
 import calendar
+from models import EventCalendar
 
 # Blueprintの作成
 myCalendar_bp = Blueprint('myCalendar', __name__, url_prefix='')
@@ -32,3 +33,18 @@ def list():
                             today = date,
                             my_calendar = my_calendar
                             )
+
+@myCalendar_bp.route('/add', methods=['GET', 'POST'])
+def add():
+    
+    if request.method == 'POST':
+
+        month = int(request.form['add_month'])
+        day = int(request.form['add_day'])
+        title = request.form['add_title']
+        todo = request.form['add_todo']
+        EventCalendar(add_month=month, add_day=day, add_title=title, add_todo=todo).save()
+
+        return redirect(url_for('myCalendar.list'))
+    
+    return render_template('myCalendar_add.html')
