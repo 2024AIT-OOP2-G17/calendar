@@ -1,38 +1,52 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-import datetime
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 import calendar
 from models import EventCalendar
+
 
 # Blueprintの作成
 myCalendar_bp = Blueprint('myCalendar', __name__, url_prefix='')
 
-
 @myCalendar_bp.route('/')
 def list():
+    return render_template('myCalendar.html')
 
-    # カレンダー名
-    originalName = "\"好きな名前\""
-
-    # 曜日のデータ準備
-    days = ['月', '火', '水', '木', '金', '土', '日']
-
+@myCalendar_bp.route("/create_calendar", methods=['GET'])
+def createCalendar():
+    # 現在の年月を取得
     # 日付のデータ取得
-    today = datetime.date.today()
-    year = today.year
-    month = today.month
-    date = today.day
+    month = int(request.args.get("month"))
+    year = int(request.args.get("year"))
+    move = int(request.args.get("move"))
 
-    # カレンダーのデータ取得
-    cal = calendar.Calendar(firstweekday=0)
+    # 月の変更
+    month += move
+
+    # 年月の調整
+    if month < 1:
+        month = 12
+        year -= 1
+    elif month > 12:
+        month = 1
+        year += 1
+
+    # カレンダー生成
+    cal = calendar.Calendar()
     my_calendar = cal.monthdayscalendar(year, month)
+
+    # データの取得
+    events = EventCalendar.select().where(
+        EventCalendar.add_month == month
+        ).order_by(EventCalendar.add_day.asc())
     
-    return render_template('myCalendar.html',
-                            originalName = originalName,
-                            days = days,
-                            month = month,
-                            today = date,
-                            my_calendar = my_calendar
-                            )
+    # 結果を辞書に変換
+    schedules = []
+    for event in events:
+        schedule = event.__data__  # モデルのインスタンスを辞書に変換
+        schedules.append(schedule)
+
+
+    # JSONでデータを返す
+    return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
 
 @myCalendar_bp.route('/add', methods=['GET', 'POST'])
 def add():
