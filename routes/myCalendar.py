@@ -66,13 +66,18 @@ def createCalendar():
     return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
 
 
-@myCalendar_bp.route('/add', methods=['GET', 'POST'])
-def add():
+@myCalendar_bp.route('/add/<int:month_day>', methods=['GET', 'POST'])
+def add(month_day):
     
     if request.method == 'POST':
 
-        month = int(request.form['add_month'])
-        day = int(request.form['add_day'])
+        if len(str(month_day)) == 3:
+            month = int(str(month_day)[-3])
+            day = month_day - int(str(month_day)[-3]) * 100
+        else:
+            month = int(month_day / 100)
+            day = month_day - int(month_day / 100) * 100
+        
         title = request.form['add_title']
         todo = request.form['add_todo']
         
@@ -87,4 +92,4 @@ def add():
 
         return redirect(url_for('myCalendar.list'))
     
-    return render_template('myCalendar_add.html')
+    return render_template('myCalendar_add.html', month_day = month_day)
