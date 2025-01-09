@@ -39,7 +39,7 @@ th {
 }
 
 button {
-  font-size: 1pt;
+  font-size: 10px;
 }
 
 .calendar {
@@ -62,7 +62,7 @@ button {
 .move {
   margin: 0 20% 0 20%;
 }
-/* table {
+table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
@@ -91,4 +91,4 @@ th {
 }
 .breadcrumb li:nth-last-child()::after {
   content: "";
-} */
+}
