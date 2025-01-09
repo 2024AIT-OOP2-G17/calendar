@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
 import calendar
-from models import EventCalendar
+from datetime import datetime
+from models.eventCalendar import EventCalendar
 
 
 # Blueprintの作成
@@ -8,7 +9,24 @@ myCalendar_bp = Blueprint('myCalendar', __name__, url_prefix='')
 
 @myCalendar_bp.route('/')
 def list():
-    return render_template('myCalendar.html')
+    today = datetime.today()
+    month = today.month
+    date = today.day
+
+    # データベースから全てのタスクを取得し、日付でソート
+    tasks = EventCalendar.select().order_by(EventCalendar.add_month, EventCalendar.add_day)
+    
+    # 今日以降の期限のタスクをフィルタリング
+    upcoming_tasks = [
+        task for task in tasks 
+        if (task.add_month > month) or 
+           (task.add_month == month and task.add_day >= date)
+    ]
+    
+    # 最初の3つのタスクのみを取得
+    upcoming_tasks = upcoming_tasks[:3]
+    
+    return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks)
 
 @myCalendar_bp.route("/create_calendar", methods=['GET'])
 def createCalendar():
@@ -44,9 +62,9 @@ def createCalendar():
         schedule = event.__data__  # モデルのインスタンスを辞書に変換
         schedules.append(schedule)
 
-
     # JSONでデータを返す
     return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
+
 
 @myCalendar_bp.route('/add', methods=['GET', 'POST'])
 def add():
@@ -57,7 +75,15 @@ def add():
         day = int(request.form['add_day'])
         title = request.form['add_title']
         todo = request.form['add_todo']
-        EventCalendar(add_month=month, add_day=day, add_title=title, add_todo=todo).save()
+        
+        # 予定を保存
+        event = EventCalendar(
+            add_month=month,
+            add_day=day,
+            add_title=title,
+            add_todo=todo
+        )
+        event.save()
 
         return redirect(url_for('myCalendar.list'))
     
