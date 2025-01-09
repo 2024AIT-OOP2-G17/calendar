@@ -58,7 +58,22 @@
       </table>
   </div>
   <div>
-    ここらへんに期限近いやつ？？サイズ未定
+    <div class="upcoming-tasks">
+      <h2>期限の近いタスク</h2>
+      {% if upcoming_tasks %}
+        <ul class="task-list">
+          {% for task in upcoming_tasks %}
+            <li class="task-item">
+            <div class="task-deadline">期限：{{ task.add_month }}月{{ task.add_day }}日</div>
+            <div class="task-title">タイトル:{{ task.add_title }}</div>  
+            <div class="task-content">内容:{{ task.add_todo }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>予定を追加してください</p>
+      {% endif %}
+    </div>
   </div>
 </body>
 </html>
