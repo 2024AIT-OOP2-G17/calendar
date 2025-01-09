@@ -10,6 +10,7 @@
     <div class="task-list">
         {% for task in tasks %}
         <li>
+        <!-- 受け取った予定を全て表示 -->
             <div class="task-item">
                 <div class="task-title">{{task.title}}</div>
                 <div class="task-deadline">期限：{{task.month}}月{{task.day}}日</div>
