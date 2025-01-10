@@ -57,7 +57,7 @@ function createCalendarBody(calendar, schedules) {
             calendar_body_html +=  `<td${isToday}>
                                         <div class="top">
                                             <div class="date">${date}</div>
-                                            <button type="button" class="add"><a href=/add/${current_month * 100 + date}>+</a></button>
+                                            <button type="button" class="add"><a href=/add/${current_year * 10000 + current_month * 100 + date}>+</a></button>
                                         </div>
                                         <div class="schedules">`;
             // 予定の取得
