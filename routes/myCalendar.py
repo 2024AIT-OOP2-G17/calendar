@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 import calendar
 from datetime import datetime
 from models.eventCalendar import EventCalendar
+from models.make import Make
 
 
 # Blueprintの作成
@@ -88,3 +89,14 @@ def add():
         return redirect(url_for('myCalendar.list'))
     
     return render_template('myCalendar_add.html')
+
+@myCalendar_bp.route('/make', methods=['GET','POST'])
+def make():
+    
+    if request.method == 'POST':
+        title = request.form['title']
+        Make.create(title = title)
+        return redirect(url_for('myCalender.list'))
+    
+    return render_template('calender_make.html')
+
