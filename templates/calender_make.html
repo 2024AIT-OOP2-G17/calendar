@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>新規カレンダー作成</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <link href="test.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <p>新規カレンダー作成</p>
-    <div class="title-box">
-        <label for="title">タイトル</label>
-        <textarea id="title" name="title" cols="20" rows="1"></textarea>
-    </div>
-    <button>作成</button>
+    <form action="{{ url_for('myCalendar.make') }}" method="post">
+        <label>タイトル: <input type="text" name="title" required></label><br>
+        <button type="submit">追加</button>
+    </form>
 </body>
 </html>

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 import calendar
 from datetime import datetime
 from models.eventCalendar import EventCalendar
+from models.make import Make
 
 
 # Blueprintの作成
@@ -22,11 +23,14 @@ def list():
         if (task.add_month > month) or 
            (task.add_month == month and task.add_day >= date)
     ]
+
+    # 作成したカレンダーのタイトルを取得
+    makes = Make.select()
     
     # 最初の3つのタスクのみを取得
     upcoming_tasks = upcoming_tasks[:3]
     
-    return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks)
+    return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks, items=makes)
 
 @myCalendar_bp.route("/create_calendar", methods=['GET'])
 def createCalendar():
@@ -66,18 +70,20 @@ def createCalendar():
     return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
 
 
-@myCalendar_bp.route('/add', methods=['GET', 'POST'])
-def add():
+@myCalendar_bp.route('/add/<int:ymd>', methods=['GET', 'POST'])
+def add(ymd):
     
     if request.method == 'POST':
 
-        month = int(request.form['add_month'])
-        day = int(request.form['add_day'])
+        year = int(ymd / 10000)
+        month = int((ymd - year * 10000) / 100)
+        day = ymd - (year * 10000) - (month * 100)
         title = request.form['add_title']
         todo = request.form['add_todo']
         
         # 予定を保存
         event = EventCalendar(
+            add_year=year,
             add_month=month,
             add_day=day,
             add_title=title,
@@ -87,7 +93,8 @@ def add():
 
         return redirect(url_for('myCalendar'))
     
-    return render_template('myCalendar_add.html')
+    return render_template('myCalendar_add.html', ymd = ymd)
+  
 @myCalendar_bp.route('/edit',methods=['GET','POST'])
 def edit(eventCalendar_id):
     calendar=EventCalendar.get_or_none(EventCalendar.id==eventCalendar_id)
@@ -101,3 +108,13 @@ def edit(eventCalendar_id):
         calendar.save()
         return redirect(url_for('myCalendar'))
     return render_template('myCalendar_edit.html',calendar=calendar)
+
+@myCalendar_bp.route('/make', methods=['GET','POST'])
+def make():
+    
+    if request.method == 'POST':
+        title = request.form['title']
+        Make.create(title = title)
+        return redirect(url_for('myCalendar.list'))
+    
+    return render_template('calender_make.html')

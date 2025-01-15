@@ -49,5 +49,17 @@
         {% endif %}
       </div>
     </div>
-  </body>
+  <div>
+    <div class="calender-make">
+      <a href="{{ url_for('myCalendar.make') }}">カレンダー作成</a>
+      <h3>カレンダー一覧<h3>
+      <ul class="task-list">
+            {% for make in items %}
+             <li class="calendar-list">
+             <div class="title">{{ make.title }}</div>
+             </li>
+            {% endfor %}
+       </ul>
+  </div>
+    </body>
 </html>
