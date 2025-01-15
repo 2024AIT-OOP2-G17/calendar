@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>達成済みリスト</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+        <script type="text/javascript" src="../static/main.js"></script>
+    </head>
+    <body>
+        <h1>達成済み</h1>
+        <ul id="achieveList">
+
+        </ul>
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const data = params.get('data'); // 'data'というキーの値を取得
+            // 値が存在する場合はリストに表示
+            if (data) {
+                const dataList = document.getElementById('achieveList');
+                // 受け取ったデータをリスト項目として追加
+                const listItem = document.createElement('li');
+                listItem.textContent = data;
+                dataList.appendChild(listItem);
+            } else {
+                // データがない場合のメッセージ
+                const noDataMessage = document.createElement('p');
+                noDataMessage.textContent = "データが送信されていません。";
+                document.body.appendChild(noDataMessage);
+            }
+        </script>
+    </body>
+</html>

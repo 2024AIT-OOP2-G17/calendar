@@ -85,6 +85,19 @@ def add():
         )
         event.save()
 
-        return redirect(url_for('myCalendar.list'))
+        return redirect(url_for('myCalendar'))
     
     return render_template('myCalendar_add.html')
+@myCalendar_bp.route('/edit',methods=['GET','POST'])
+def edit(eventCalendar_id):
+    calendar=EventCalendar.get_or_none(EventCalendar.id==eventCalendar_id)
+    if not calendar:
+        return redirect(url_for('myCalendar'))
+    if request.method=='POST':
+        calendar.month=request.form['month']
+        calendar.day=request.form['day']
+        calendar.title=request.form['title']
+        calendar.todo=request.form['todo']
+        calendar.save()
+        return redirect(url_for('myCalendar'))
+    return render_template('myCalendar_edit.html',calendar=calendar)
