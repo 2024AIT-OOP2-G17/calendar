@@ -70,18 +70,20 @@ def createCalendar():
     return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
 
 
-@myCalendar_bp.route('/add', methods=['GET', 'POST'])
-def add():
+@myCalendar_bp.route('/add/<int:ymd>', methods=['GET', 'POST'])
+def add(ymd):
     
     if request.method == 'POST':
 
-        month = int(request.form['add_month'])
-        day = int(request.form['add_day'])
+        year = int(ymd / 10000)
+        month = int((ymd - year * 10000) / 100)
+        day = ymd - (year * 10000) - (month * 100)
         title = request.form['add_title']
         todo = request.form['add_todo']
         
         # 予定を保存
         event = EventCalendar(
+            add_year=year,
             add_month=month,
             add_day=day,
             add_title=title,
@@ -91,7 +93,7 @@ def add():
 
         return redirect(url_for('myCalendar.list'))
     
-    return render_template('myCalendar_add.html')
+    return render_template('myCalendar_add.html', ymd = ymd)
 
 @myCalendar_bp.route('/make', methods=['GET','POST'])
 def make():
