@@ -23,11 +23,14 @@ def list():
         if (task.add_month > month) or 
            (task.add_month == month and task.add_day >= date)
     ]
+
+    # 作成したカレンダーのタイトルを取得
+    makes = Make.select()
     
     # 最初の3つのタスクのみを取得
     upcoming_tasks = upcoming_tasks[:3]
     
-    return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks)
+    return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks, items=makes)
 
 @myCalendar_bp.route("/create_calendar", methods=['GET'])
 def createCalendar():
@@ -96,7 +99,6 @@ def make():
     if request.method == 'POST':
         title = request.form['title']
         Make.create(title = title)
-        return redirect(url_for('myCalender.list'))
+        return redirect(url_for('myCalendar.list'))
     
     return render_template('calender_make.html')
-
