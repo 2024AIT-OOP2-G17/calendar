@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>予定編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>予定を編集</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('myCalendar') }}">HOME</a></li>
+        <li><a href="{{ url_for('myCalendar.list') }}">予定一覧</a></li>
+        <li>予定編集</li>
+    </ul>
+
+    <form action="{{ url_for('myCalendar.edit', EventCalendar.id=calendar_id) }}" method="post">
+        <label>月: <input type="number" name="month" value="{{ cal.month }}" required></label><br>
+        <label>日: <input type="number" name="day" value="{{ cal.day }}" required></label><br>
+        <label>タイトル: <input type="text" name="title" value="{{ cal.title }}" required></label><br>
+        <label>内容: <input type="text" name="todo" value="{{ cal.todo }}" required></label><br>
+        <button type="submit">保存</button>
+    </form>
+</body>
+</html>
