@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="calendar">
-      <h1>Originalカレンダー</h1>
+      <h1>{{ make.title }}</h1>
       <div class="select">
         <button id="last_month" class="move" onclick="changeMonth(-1)"></button>
         <div>
@@ -47,7 +47,7 @@
       <ul class="task-list">
             {% for make in items %}
              <li class="calendar-list">
-             <div class="title"><a href="{{ url_for('myCalendar.maked_calendar', make_id=make.id) }}">{{ make.title }}</a></div>
+             <div class="title"><a href="{{ url_for('myCalendar.list', make_id=make.id) }}">{{ make.title }}</a></div>
              </li>
             {% endfor %}
        </ul>
