@@ -8,16 +8,16 @@
 </head>
 <body>
     <h1>予定を編集</h1>
-    <ul class="breadcrumb">
-        <li><a href="{{ url_for('myCalendar') }}">予定一覧</a></li>
+        <li><a href="{{ url_for('myCalendar.list') }}">予定一覧</a></li>
         <li>編集</li>
     </ul>
 
-    <form action="{{ url_for('myCalendar_edit' eventCalendar_id=EventCalendar.id)}}" method="post">
-        <label>月: <input id="month" type="number" name="month" value="{{ cal.month }}" required></label><br>
-        <label>日: <input id="day" type="number" name="day" value="{{ cal.day }}" required></label><br>
-        <label>タイトル: <input id="title" type="text" name="title" value="{{ cal.title }}" required></label><br>
-        <label>内容: <input id="todo" type="text" name="todo" value="{{ cal.todo }}" required></label><br>
+    <form action="{{ url_for('myCalendar.edit', eventCalendar_id=eventCalendar_id) }}" method="post">
+        <label>年: <input id="year" type="number" name="year" value="{{ calendar.add_year }}" required></label><br>
+        <label>月: <input id="month" type="number" name="month" value="{{ calendar.add_month }}" required></label><br>
+        <label>日: <input id="day" type="number" name="day" value="{{ calendar.add_day }}" required></label><br>
+        <label>タイトル: <input id="title" type="text" name="title" value="{{ calendar.add_title }}" required></label><br>
+        <label>内容: <input id="todo" type="text" name="todo" value="{{ calendar.add_todo }}" required></label><br>
         <button type="submit">保存</button>
         <button type="submit" id="achieve">完了</button>
     </form>
@@ -38,7 +38,7 @@
             }).toString();
 
             // 遷移
-            window.location.href = "{{ url_for('achieve.list') }}?" + queryParams;
+            window.location.href = "{{ url_for('myCalendar.edit', eventCalendar_id=calendar) }}?" + queryParams;
         });
     </script>
 </body>
