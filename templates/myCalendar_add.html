@@ -13,6 +13,14 @@
         <div class="form-group title">
         <label>タイトル: <input type="text" name="add_title" required></label><br>
         </div>
+        <div class="from-group id">
+        <label>ユーザー: 
+            <select name="calendar_id" required>
+                {% for make in makes %}
+                    <option value="{{ make.title }}">{{ make.title }}</option>
+                {% endfor %}
+            </select>
+        </label></div><br>
         <div class="form-group detail">
         <label>詳細: <input type="text" name="add_todo" required></label><br>
         </div>
