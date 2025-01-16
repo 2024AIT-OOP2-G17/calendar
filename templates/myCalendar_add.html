@@ -4,13 +4,18 @@
     <meta charset="UTF-8">
     <title>ToDo追加</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='todo-form.css') }}">
 </head>
 <body>
-    <h1>新しいToDoを追加</h1>
+    <h1>新しいスケジュールを追加</h1>
 
      <form action="{{ url_for('myCalendar.add', ymd = ymd) }}" method="post">
+        <div class="form-group title">
         <label>タイトル: <input type="text" name="add_title" required></label><br>
-        <label>内容: <input type="text" name="add_todo" required></label><br>
+        </div>
+        <div class="form-group detail">
+        <label>詳細: <input type="text" name="add_todo" required></label><br>
+        </div>
         <button type="submit">追加</button>
     </form>
 </body>
