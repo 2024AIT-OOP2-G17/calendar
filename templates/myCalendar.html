@@ -7,15 +7,6 @@
       <script type="text/javascript" src="/static/main.js"></script>
   </head>
   <body>
-    <div class="menu">
-      <button class="hamburger">≡</button>
-      <div>
-        <ul>
-          <li>ss</li>
-          <li>tt</li>
-        </ul>
-      </div>
-    </div>
     <div class="calendar">
       <h1>Originalカレンダー</h1>
       <div class="select">
@@ -26,7 +17,7 @@
         </div>
         <button id="next_month" class="move" onclick="changeMonth(1)"></button>
       </div>
-        <table>
+        <table class="calendar">
           <thead></thead>
           <tbody></tbody>
         </table>
@@ -49,5 +40,17 @@
         {% endif %}
       </div>
     </div>
-  </body>
+  <div>
+    <div class="calender-make">
+      <a href="{{ url_for('myCalendar.make') }}">カレンダー作成</a>
+      <h3>カレンダー一覧<h3>
+      <ul class="task-list">
+            {% for make in items %}
+             <li class="calendar-list">
+             <div class="title">{{ make.title }}</div>
+             </li>
+            {% endfor %}
+       </ul>
+  </div>
+    </body>
 </html>

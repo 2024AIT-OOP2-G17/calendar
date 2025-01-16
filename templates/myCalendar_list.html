@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>予定一覧</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+</head>
+<body>
+    <h1>{{ add_title }}</h1>
+    <ul class="breadcrumb">
+        <li><a href="{{ url_for('myCalendar') }}">HOME</a></li>
+        <li><a href="{{ url_for('myCalendar.list') }}">予定一覧</a></li>
+    </ul>
+
+    <a href="{{ url_for('myCalendar.add') }}">新規予定追加</a>
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>月</th>
+                <th>日</th>
+                <th>タイトル</th>
+                <th>内容</th>            
+            </tr>
+        </thead>
+        <tbody>
+            {% for cal in cal %}
+            <tr>
+                <td><a href="{{ url_for('myCalendar.edit',EventCalendar.id=calendar_id) }}">編集</a></td>
+                <td>{{ cal.month }}</td>
+                <td>{{ cal.day }}</td>
+                <td>{{ cal.title }}</td>
+                <td>{{ cal.todo }}</td>
+            </tr>
+            {% endfor %}
+            <button onclick="javascript:window.history.back(-1);return false;">戻る</button>
+        </tbody>
+    </table>
+</body>
+</html>

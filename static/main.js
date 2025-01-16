@@ -27,6 +27,16 @@ function changeMonth(move) {
             document.querySelector("#title_month").innerText = current_month;
             document.querySelector("thead").innerHTML = createCalendarHead();
             document.querySelector("tbody").innerHTML = createCalendarBody(data.calendar, data.schedules);
+            
+            //予定のクリック：編集画面に移動
+            var events=document.querySelectorAll(".event");
+            events.forEach(function(targets){
+                targets.addEventListener("click",()=>{
+                    const eventCalendarId = targets.dataset.id; // data-id 属性から ID を取得
+                    window.location.href = `/edit/${eventCalendarId}`;
+                });
+            });
+
         })
         .catch(error => {
             // エラー時の処理
@@ -43,6 +53,7 @@ function createCalendarHead() {
     return calendar_head_html;
 }
 
+
 function createCalendarBody(calendar, schedules) {
     calendar_body_html = ""
     calendar.forEach(week => {
@@ -57,7 +68,7 @@ function createCalendarBody(calendar, schedules) {
             calendar_body_html +=  `<td${isToday}>
                                         <div class="top">
                                             <div class="date">${date}</div>
-                                            <button type="button" class="add"><a href="/add">+</a></button>
+                                            <button type="button" class="add"><a href=/add/${current_year * 10000 + current_month * 100 + date}>+</a></button>
                                         </div>
                                         <div class="schedules">`;
             // 予定の取得
@@ -65,8 +76,9 @@ function createCalendarBody(calendar, schedules) {
             console.log(schedules);
             
             result.forEach(event => {
-                calendar_body_html += `<div class="event">${event.add_title}</div>`;
+                calendar_body_html += `<button class="event" data-id="${event.id}">${event.add_title}</button>`;
             });
+            
 
             calendar_body_html +=  `    </div>
                                     </td>`;
@@ -74,6 +86,7 @@ function createCalendarBody(calendar, schedules) {
 
         calendar_body_html += `</tr>`;
     });
-
+    
+    
     return calendar_body_html;
 }

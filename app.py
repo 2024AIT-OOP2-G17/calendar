@@ -14,7 +14,7 @@ for blueprint in blueprints:
 @app.route('/')
 def calendar():
     
-    return render_template('calendar.html')
+    return render_template('myCalendar')
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=True)
+    app.run(port=8081, debug=True)
