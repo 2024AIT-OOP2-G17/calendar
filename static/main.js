@@ -32,8 +32,9 @@ function changeMonth(move) {
             var events=document.querySelectorAll(".event");
             events.forEach(function(targets){
                 targets.addEventListener("click",()=>{
-                    const eventCalendarId = targets.dataset.id; // data-id 属性から ID を取得
-                    window.location.href = `/edit/${eventCalendarId}`;
+                    //const eventCalendarId = targets.dataset.id; // data-id 属性から ID を取得
+                    //window.location.href = `/edit/${eventCalendarId}`;
+                    window.location.href='/edit/' + targets.textContent;
                 });
             });
 

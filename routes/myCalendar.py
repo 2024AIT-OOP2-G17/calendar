@@ -112,23 +112,24 @@ def add(ymd):
         )
         event.save()
 
-        return redirect(url_for('myCalendar'))
+        return redirect(url_for('myCalendar.list'))
     
     return render_template('myCalendar_add.html', ymd = ymd, makes=makes)
 
-@myCalendar_bp.route('/edit/<int:eventCalendar_id>',methods=['GET','POST'])
+@myCalendar_bp.route('/edit/<string:eventCalendar_id>',methods=['GET','POST'])
 def edit(eventCalendar_id):
-    calendar=EventCalendar.get_or_none(EventCalendar.id==eventCalendar_id)
-    if not calendar:
-        return redirect(url_for('myCalendar'))
+    calendar=EventCalendar.get_or_none(EventCalendar.add_title==eventCalendar_id)
     if request.method=='POST':
-        calendar.month=request.form['month']
-        calendar.day=request.form['day']
-        calendar.title=request.form['title']
-        calendar.todo=request.form['todo']
+        if not calendar:
+            return redirect(url_for('myCalendar.list'))
+        calendar.add_year=request.form['year']
+        calendar.add_month=request.form['month']
+        calendar.add_day=request.form['day']
+        calendar.add_title=request.form['title']
+        calendar.add_todo=request.form['todo']
         calendar.save()
-        return redirect(url_for('myCalendar'))
-    return render_template('myCalendar_edit.html',calendar=calendar)
+        return redirect(url_for('myCalendar.list'))
+    return render_template('myCalendar_edit.html',eventCalendar_id=eventCalendar_id,calendar=calendar)
 
 @myCalendar_bp.route('/make', methods=['GET','POST'])
 def make():
