@@ -20,8 +20,16 @@ form {
     margin-right: 0px;
 }
 
+
+
 input[type="text"] {
     width: 200px; 
     padding: 5px;
 }
 
+button[type="submit"] {
+    display: block;  
+    margin-left: 472px;  
+    font-size: 18px; 
+    border: 2px solid #000; 
+}
