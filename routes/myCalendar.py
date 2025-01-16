@@ -92,9 +92,23 @@ def add(ymd):
         )
         event.save()
 
-        return redirect(url_for('myCalendar.list'))
+        return redirect(url_for('myCalendar'))
     
     return render_template('myCalendar_add.html', ymd = ymd)
+
+@myCalendar_bp.route('/edit/<int:eventCalendar_id>',methods=['GET','POST'])
+def edit(eventCalendar_id):
+    calendar=EventCalendar.get_or_none(EventCalendar.id==eventCalendar_id)
+    if not calendar:
+        return redirect(url_for('myCalendar'))
+    if request.method=='POST':
+        calendar.month=request.form['month']
+        calendar.day=request.form['day']
+        calendar.title=request.form['title']
+        calendar.todo=request.form['todo']
+        calendar.save()
+        return redirect(url_for('myCalendar'))
+    return render_template('myCalendar_edit.html',calendar=calendar)
 
 @myCalendar_bp.route('/make', methods=['GET','POST'])
 def make():
@@ -105,3 +119,27 @@ def make():
         return redirect(url_for('myCalendar.list'))
     
     return render_template('calender_make.html')
+
+@myCalendar_bp.route('/edit/<int:eventCalendar_id>/achieve', methods=['GET'])
+def achieve():
+    # クエリパラメータを取得
+    month=request.args.get('month')
+    day=request.args.get('day')
+    title=request.args.get('title')
+    todo=request.args.get('todo')
+    # 必要に応じて、取得データを処理またはデータベースに保存
+    # 例: 完了済みタスクとしてフラグを設定する
+    completed_event=EventCalendar.get_or_none(
+        (EventCalendar.add_month==int(month))&
+        (EventCalendar.add_day==int(day))&
+        (EventCalendar.add_title==title)&
+        (EventCalendar.add_todo==todo)
+    )
+    if completed_event:
+        completed_event.is_completed=True  # 完了フラグ（仮想フィールド）
+        completed_event.save()
+
+    # 達成済みリストにデータを渡して表示
+    data = f"{month}月{day}日: {title} - {todo}"
+    return render_template('achieve_list.html', data=data)
+

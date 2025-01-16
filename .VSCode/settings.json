@@ -1,4 +1,6 @@
 {
-    "files.associations": { "*.html": "jinja-html" },
+    "files.associations": {
+        "*.html": "html"
+    },
     "[jinja-html]": { "editor.formatOnSave": false }
 }
