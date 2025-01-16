@@ -10,19 +10,36 @@ myCalendar_bp = Blueprint('myCalendar', __name__, url_prefix='')
 
 @myCalendar_bp.route('/')
 def list():
+    #test出力
+    print(f"今日の日付: {datetime.today().strftime('%Y-%m-%d')}")
     today = datetime.today()
-    month = today.month
-    date = today.day
+    current_year = today.year
+    current_month = today.month
+    current_date = today.day
 
-    # データベースから全てのタスクを取得し、日付でソート
-    tasks = EventCalendar.select().order_by(EventCalendar.add_month, EventCalendar.add_day)
+    # データベースから全てのタスクを取得
+    tasks = EventCalendar.select()
     
-    # 今日以降の期限のタスクをフィルタリング
-    upcoming_tasks = [
-        task for task in tasks 
-        if (task.add_month > month) or 
-           (task.add_month == month and task.add_day >= date)
-    ]
+
+    # 今日以降の期限のタスクをフィルタリングしたいけどできてない気がする
+    upcoming_tasks = []
+    for task in tasks:
+        # 月と日から日付オブジェクトを作成
+        task_date = datetime(current_year, task.add_month, task.add_day)
+        today_date = datetime(current_year, current_month, current_date)
+        
+        # 過去の日付の場合は来年の日付として扱う
+        if task_date < today_date:
+            task_date = datetime(current_year + 1, task.add_month, task.add_day)
+            
+        # 更新された task_date を使って比較
+        if task_date >= today_date:
+            # タスクに並び替え用の日付情報を追加
+            task.sort_date = task_date
+            upcoming_tasks.append(task)
+    
+    # 日付でソート（更新された日付情報を使用）
+    upcoming_tasks.sort(key=lambda x: x.sort_date)
 
     # 作成したカレンダーのタイトルを取得
     makes = Make.select()
@@ -30,6 +47,7 @@ def list():
     # 最初の3つのタスクのみを取得
     upcoming_tasks = upcoming_tasks[:3]
     
+
     return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks, items=makes)
 
 @myCalendar_bp.route("/create_calendar", methods=['GET'])
