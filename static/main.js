@@ -32,9 +32,10 @@ function changeMonth(move) {
             var events=document.querySelectorAll(".event");
             events.forEach(function(targets){
                 targets.addEventListener("click",()=>{
-                    window.location.href='/edit';
+                    const eventCalendarId = targets.dataset.id; // data-id 属性から ID を取得
+                    window.location.href = `/edit/${eventCalendarId}`;
                 });
-            })
+            });
 
         })
         .catch(error => {
@@ -75,7 +76,7 @@ function createCalendarBody(calendar, schedules) {
             console.log(schedules);
             
             result.forEach(event => {
-                calendar_body_html += `<button class="event">${event.add_title}</button>`;
+                calendar_body_html += `<button class="event" data-id="${event.id}">${event.add_title}</button>`;
             });
             
 
