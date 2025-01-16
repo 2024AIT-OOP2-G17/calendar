@@ -91,6 +91,8 @@ def createCalendar():
 
 @myCalendar_bp.route('/add/<int:ymd>', methods=['GET', 'POST'])
 def add(ymd):
+    # 作成したカレンダーのタイトルを取得
+    makes = Make.select()
     
     if request.method == 'POST':
 
@@ -112,7 +114,7 @@ def add(ymd):
 
         return redirect(url_for('myCalendar'))
     
-    return render_template('myCalendar_add.html', ymd = ymd)
+    return render_template('myCalendar_add.html', ymd = ymd, makes=makes)
 
 @myCalendar_bp.route('/edit/<int:eventCalendar_id>',methods=['GET','POST'])
 def edit(eventCalendar_id):
