@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>新規作成</title>
-    <link href="calender-form.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='calender-form.css') }}">
 </head>
 <body>
-    <p>新規カレンダー作成</p>
+    <h1>新規カレンダー作成</h1>
     <form action="{{ url_for('myCalendar.make') }}" method="post">
-        <label>タイトル: <input type="text" name="title" required></label><br>
+        <div class="form-group category">
+        <label>カテゴリ: <input type="text" name="category" required></label><br>
+        </div>
         <button type="submit">追加</button>
     </form>
 </body>
