@@ -57,7 +57,8 @@ def createCalendar():
 
     # データの取得
     events = EventCalendar.select().where(
-        EventCalendar.add_month == month
+        (EventCalendar.add_month == month) &
+        (EventCalendar.add_year == year)
         ).order_by(EventCalendar.add_day.asc())
     
     # 結果を辞書に変換

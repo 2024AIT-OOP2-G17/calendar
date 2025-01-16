@@ -4,10 +4,6 @@
   cursor: default;
 }
 
-/* body {
-  margin: 0px;
-} */
-
 button {
   background-color: transparent;
   border: none;
@@ -30,11 +26,9 @@ div {
 }
 
 table {
-  margin: auto;
-  border-collapse: separate;
-  width: 70%;
-  border-spacing: 0;
-  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
 }
 
 th {
@@ -77,6 +71,14 @@ td:hover .add {
   min-width: 550px;
   user-select: none;
   margin: 1% auto;
+}
+
+.calendar table {
+  margin: auto;
+  border-collapse: separate;
+  width: 70%;
+  border-spacing: 0;
+  table-layout: fixed;
 }
 
 .select {
@@ -168,12 +170,6 @@ td:hover .add {
 
 .task-content {
   margin-top: 5px;
-}
-
-/* table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
 }
 
 #title_month {
