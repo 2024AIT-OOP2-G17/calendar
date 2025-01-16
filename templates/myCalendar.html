@@ -47,7 +47,7 @@
       <ul class="task-list">
             {% for make in items %}
              <li class="calendar-list">
-             <div class="title">{{ make.title }}</div>
+             <div class="title"><a href="{{ url_for('myCalendar.list', make_id=make.id) }}">{{ make.title }}</a></div>
              </li>
             {% endfor %}
        </ul>
