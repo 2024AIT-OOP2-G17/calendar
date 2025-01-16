@@ -102,3 +102,37 @@ def make():
         return redirect(url_for('myCalendar.list'))
     
     return render_template('calender_make.html')
+
+@myCalendar_bp.route('/maked_calendar/<int:calendar_id>', methods=['GET', 'POST'])
+def maked_calendar(calendar_id):
+    make = Make.get_or_none(Make.id == calendar_id)
+
+    if not make:
+        return redirect(url_for('make.list'))
+
+    if request.method == 'POST':
+        make.title = request.form['make']
+        make.save()
+        return redirect(url_for('make.list'))
+
+    today = datetime.today()
+    month = today.month
+    date = today.day
+
+    # データベースから全てのタスクを取得し、日付でソート
+    tasks = EventCalendar.select().order_by(EventCalendar.add_month, EventCalendar.add_day)
+    
+    # 今日以降の期限のタスクをフィルタリング
+    upcoming_tasks = [
+        task for task in tasks 
+        if (task.add_month > month) or 
+           (task.add_month == month and task.add_day >= date)
+    ]
+
+    # 作成したカレンダーのタイトルを取得
+    makes = Make.select()
+    
+    # 最初の3つのタスクのみを取得
+    upcoming_tasks = upcoming_tasks[:3]
+    
+    return render_template('myCalendar_copy.html', upcoming_tasks = upcoming_tasks, make=make, items=makes)
