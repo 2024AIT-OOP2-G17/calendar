@@ -7,6 +7,9 @@
       <script type="text/javascript" src="/static/main.js"></script>
   </head>
   <body>
+    <ul class="breadcrumb">
+      <li><a href="{{ url_for('myCalendar.list') }}">HOME</a></li>
+    </ul>
     <div class="calendar">
       <h1>{{ make.title }}</h1>
       <div class="select">
@@ -47,7 +50,7 @@
       <ul class="task-list">
             {% for make in items %}
              <li class="calendar-list">
-             <div class="title"><a href="{{ url_for('myCalendar.list', make_id=make.id) }}">{{ make.title }}</a></div>
+             <div class="title"><a href="{{ url_for('myCalendar.maked_calendar', make_id=make.id) }}">{{ make.title }}</a></div>
              </li>
             {% endfor %}
        </ul>
