@@ -178,10 +178,10 @@ def maked_calendar(make_id):
     current_date = today.day
 
     # データベースから全てのタスクを取得
-    tasks = EventCalendar.get_or_none(EventCalendar.calendar_id == make_id)
+    tasks = EventCalendar.select().where(EventCalendar.calendar_id == make_id)
     if not tasks:
-        print(make_id)
-        return redirect(url_for('myCalendar.list'))
+       tasks = []
+       print(tasks)
 
     # 今日以降の期限のタスクをフィルタリングしたいけどできてない気がする
     upcoming_tasks = []
