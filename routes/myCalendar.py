@@ -101,6 +101,7 @@ def add(ymd):
         day = ymd - (year * 10000) - (month * 100)
         title = request.form['add_title']
         todo = request.form['add_todo']
+        calendar_id = request.form['calendar_id']
         
         # 予定を保存
         event = EventCalendar(
@@ -108,7 +109,8 @@ def add(ymd):
             add_month=month,
             add_day=day,
             add_title=title,
-            add_todo=todo
+            add_todo=todo,
+            calendar_id = calendar_id
         )
         event.save()
 
@@ -164,3 +166,47 @@ def achieve():
     data = f"{month}月{day}日: {title} - {todo}"
     return render_template('achieve_list.html', data=data)
 
+
+@myCalendar_bp.route('/maked_calendar/<int:make_id>', methods=['GET', 'POST'])
+def maked_calendar(make_id):
+    make = Make.get_or_none(Make.id == make_id)
+    #test出力
+    print(f"今日の日付: {datetime.today().strftime('%Y-%m-%d')}")
+    today = datetime.today()
+    current_year = today.year
+    current_month = today.month
+    current_date = today.day
+
+    # データベースから全てのタスクを取得
+    tasks = EventCalendar.get_or_none(EventCalendar.calendar_id == make_id)
+    if not tasks:
+        print(make_id)
+        return redirect(url_for('myCalendar.list'))
+
+    # 今日以降の期限のタスクをフィルタリングしたいけどできてない気がする
+    upcoming_tasks = []
+    for task in tasks:
+        # 月と日から日付オブジェクトを作成
+        task_date = datetime(current_year, task.add_month, task.add_day)
+        today_date = datetime(current_year, current_month, current_date)
+
+        # 過去の日付の場合は来年の日付として扱う
+        if task_date < today_date:
+            task_date = datetime(current_year + 1, task.add_month, task.add_day)
+
+        # 更新された task_date を使って比較
+        if task_date >= today_date:
+            # タスクに並び替え用の日付情報を追加
+            task.sort_date = task_date
+            upcoming_tasks.append(task)
+
+    # 日付でソート（更新された日付情報を使用）
+    upcoming_tasks.sort(key=lambda x: x.sort_date)
+
+    # 作成したカレンダーのタイトルを取得
+    makes = Make.select()
+
+    # 最初の3つのタスクのみを取得
+    upcoming_tasks = upcoming_tasks[:3]
+
+    return render_template('myCalendar_copy.html', upcoming_tasks = upcoming_tasks, items=makes, make=make)
