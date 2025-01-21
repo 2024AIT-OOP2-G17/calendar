@@ -8,25 +8,30 @@
     </head>
     <body>
         <h1>達成済み</h1>
-        <ul id="achieveList">
-
-        </ul>
-        <script>
-            const params = new URLSearchParams(window.location.search);
-            const data = params.get('data'); // 'data'というキーの値を取得
-            // 値が存在する場合はリストに表示
-            if (data) {
-                const dataList = document.getElementById('achieveList');
-                // 受け取ったデータをリスト項目として追加
-                const listItem = document.createElement('li');
-                listItem.textContent = data;
-                dataList.appendChild(listItem);
-            } else {
-                // データがない場合のメッセージ
-                const noDataMessage = document.createElement('p');
-                noDataMessage.textContent = "データが送信されていません。";
-                document.body.appendChild(noDataMessage);
-            }
-        </script>
+        <table>
+            <thead>
+                <tr>
+                    <th>年</th>
+                    <th>月</th>
+                    <th>日</th>
+                    <th>タイトル</th>
+                    <th>内容</th> 
+                    <th>達成日</th>           
+                </tr>
+            </thead>
+            <tbody>
+                {% for ach in items %}
+                <tr>
+                    <td>{{ ach.year }}</td>
+                    <td>{{ ach.month }}</td>
+                    <td>{{ ach.day }}</td>
+                    <td>{{ ach.title }}</td>
+                    <td>{{ ach.todo }}</td>
+                    <td>{{ ach.doneDay }}</td>
+                </tr>
+                {% endfor %}
+                <a href="/">トップページに戻る</a>
+            </tbody>
+        </table>
     </body>
 </html>
