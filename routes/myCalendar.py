@@ -3,6 +3,7 @@ import calendar
 from datetime import datetime
 from models.eventCalendar import EventCalendar
 from models.make import Make
+from models import Achieve
 
 
 # Blueprintの作成
@@ -47,6 +48,7 @@ def list():
     # 最初の3つのタスクのみを取得
     upcoming_tasks = upcoming_tasks[:3]
     
+
 
     return render_template('myCalendar.html', upcoming_tasks = upcoming_tasks, items=makes)
 
@@ -122,6 +124,22 @@ def edit(eventCalendar_id):
     if request.method=='POST':
         if not calendar:
             return redirect(url_for('myCalendar.list'))
+        
+        if request.form['completed'] == 'true':
+            y = request.form['year']
+            m = request.form['month']
+            d = request.form['day']
+            title = request.form['title']
+            todo = request.form['todo']
+
+            print('comp!!')
+
+            dt = datetime.today()
+            date = str(dt.year) + '/' + str(dt.month) + '/' + str(dt.day)
+
+            Achieve.create(year=y, month=m, day=d, title=title, todo=todo, doneDay=date)
+
+
         calendar.add_year=request.form['year']
         calendar.add_month=request.form['month']
         calendar.add_day=request.form['day']
@@ -141,26 +159,8 @@ def make():
     
     return render_template('calender_make.html')
 
-@myCalendar_bp.route('/edit/<int:eventCalendar_id>/achieve', methods=['GET'])
-def achieve():
-    # クエリパラメータを取得
-    month=request.args.get('month')
-    day=request.args.get('day')
-    title=request.args.get('title')
-    todo=request.args.get('todo')
-    # 必要に応じて、取得データを処理またはデータベースに保存
-    # 例: 完了済みタスクとしてフラグを設定する
-    completed_event=EventCalendar.get_or_none(
-        (EventCalendar.add_month==int(month))&
-        (EventCalendar.add_day==int(day))&
-        (EventCalendar.add_title==title)&
-        (EventCalendar.add_todo==todo)
-    )
-    if completed_event:
-        completed_event.is_completed=True  # 完了フラグ（仮想フィールド）
-        completed_event.save()
+@myCalendar_bp.route('/achieve_list')
+def achieve_list():
+    achs = Achieve.select()
 
-    # 達成済みリストにデータを渡して表示
-    data = f"{month}月{day}日: {title} - {todo}"
-    return render_template('achieve_list.html', data=data)
-
+    return render_template('achieve_list.html', items=achs)

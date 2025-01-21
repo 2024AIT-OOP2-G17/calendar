@@ -2,10 +2,12 @@ from peewee import SqliteDatabase
 from .db import db
 from .eventCalendar import EventCalendar
 from .make import Make
+from .achieve import Achieve
 
 MODELS = [
     EventCalendar,
-    Make
+    Make,
+    Achieve
 ]
 
 # データベースの初期化関数
