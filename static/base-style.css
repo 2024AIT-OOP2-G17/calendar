@@ -198,3 +198,10 @@ td:hover .add {
 #today {
   background-color: #f2f2f2;
 }
+
+.sidebar {
+  width: 96px;
+  background-color: moccasin;
+  box-sizing: border-box;
+  border: 8px solid chocolate;
+}

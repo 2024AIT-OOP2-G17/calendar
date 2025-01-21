@@ -18,28 +18,52 @@
         <label>日: <input id="day" type="number" name="day" value="{{ calendar.add_day }}" required></label><br>
         <label>タイトル: <input id="title" type="text" name="title" value="{{ calendar.add_title }}" required></label><br>
         <label>内容: <input id="todo" type="text" name="todo" value="{{ calendar.add_todo }}" required></label><br>
-        <button type="submit">保存</button>
-        <button type="submit" id="achieve">完了</button>
+        <label style="display: none;">完了: <input type="text" name="completed" id="complete"></label>
+        <input type="checkbox" onclick="completedEvent()" id="cb">完了<br>
+        <button type="submit" name="status" value="pending">保存</button>
+        <!-- <button type="submit" name="status" value="completed" onclick="completedEvent()">完了</button> -->
     </form>
     <script>
-        document.getElementById('achieve').addEventListener("click", function () {
-            // 入力データの取得
-            const month = document.getElementById('month').value;
-            const day = document.getElementById('day').value;
-            const title = document.getElementById('title').value;
-            const todo = document.getElementById('todo').value;
+        function completedEvent() {
+            var cb = document.getElementById('cb')
+            var comp = document.getElementById('complete');
+            if (cb.checked) {
+                comp.value = 'true';
+            } else {
+                comp.value = '';
+            }
+        }
 
-            // クエリパラメータを生成
-            const queryParams = new URLSearchParams({
-                month: month,
-                day: day,
-                title: title,
-                todo: todo
-            }).toString();
 
-            // 遷移
-            window.location.href = "{{ url_for('myCalendar.edit', eventCalendar_id=calendar) }}?" + queryParams;
-        });
+        document.getElementsByName('status').addEventListener("click", function () {
+        // 入力データの取得
+        const month = document.getElementById('month').value;
+        const day = document.getElementById('day').value;
+        const title = document.getElementById('title').value;
+        const todo = document.getElementById('todo').value;
+
+        // クエリパラメータを生成
+        const queryParams = new URLSearchParams({
+            month: month,
+            day: day,
+            title: title,
+            todo: todo
+        }).toString();
+
+        // 現在の日付を取得して隠し入力フィールドとしてフォームに追加
+        const now = new Date();
+        const completedDate = now.toISOString().split("T")[0]; // 現在の日付 (YYYY-MM-DD)
+        
+        const form = document.querySelector("form");
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "completed_date";
+        input.value = completedDate;
+        form.appendChild(input);
+
+        // 遷移先URLの生成
+        window.location.href = "{{ url_for('myCalendar.edit', eventCalendar_id=calendar) }}?" + queryParams;
+    });
     </script>
 </body>
 </html>
