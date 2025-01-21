@@ -5,11 +5,14 @@ const days = {"ja" : ['月', '火', '水', '木', '金', '土', '日'], "en" : [
 let first_day = 0; // 0->月曜
 const isToday = "id=\"today\""
 
-changeMonth(0) // 初期化
+const id = 1;
+
+changeMonth(0); // 初期化
+
 
 // Fetch API を使った参照月の切り替え関数
 function changeMonth(move) {
-    const url = `/create_calendar?move=${move}&month=${current_month}&year=${current_year}`; // URLに移動先と、今現在の月をクエリとして追加
+    const url = `/create_calendar/${id}?move=${move}&month=${current_month}&year=${current_year}`; // URLに移動先と、今現在の月をクエリとして追加
     // Fetch APIでリクエストを送信
     fetch(url)
         .then(response => {
@@ -31,7 +34,9 @@ function changeMonth(move) {
             var events=document.querySelectorAll(".event");
             events.forEach(function(targets){
                 targets.addEventListener("click",()=>{
-                    window.location.href = '/edit/'+targets.textContent;
+                    //const eventCalendarId = targets.dataset.id; // data-id 属性から ID を取得
+                    //window.location.href = `/edit/${eventCalendarId}`;
+                    window.location.href='/edit/' + targets.textContent;
                 });
             });
 

@@ -4,7 +4,7 @@
       <meta charset="UTF-8">
       <title>カレンダー</title>
       <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
-      <script type="text/javascript" src="/static/main.js"></script>
+      <script type="text/javascript" src="/static/main_copy.js"></script>
   </head>
   <body>
     <ul class="breadcrumb">
@@ -47,11 +47,12 @@
     <div class="calender-make">
       <a href="{{ url_for('myCalendar.make') }}">カレンダー作成</a>
       <h3>カレンダー一覧<h3>
-      <ul class="task-list">
-            {% for make in items %}
-             <li class="calendar-list">
-             <div class="title"><a href="{{ url_for('myCalendar.maked_calendar', make_id=make.id) }}">{{ make.title }}</a></div>
-             </li>
+        <ul class="task-list">
+              {% for make in items %}
+                <div class="title">
+                  <div class="title"><a href="{{ url_for('myCalendar.maked_calendar', make_id=make.id) }}">{{ make.title }}</a></div>
+                </div>
+               </li>
             {% endfor %}
        </ul>
   </div>
