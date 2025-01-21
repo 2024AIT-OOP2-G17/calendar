@@ -74,10 +74,12 @@ def createCalendar():
     my_calendar = cal.monthdayscalendar(year, month)
 
     # データの取得
+
     events = EventCalendar.select().where(
-        (EventCalendar.add_month == month) &
-        (EventCalendar.add_year == year)
-        ).order_by(EventCalendar.add_day.asc())
+            (EventCalendar.add_month == month) &
+            (EventCalendar.add_year == year)
+            ).order_by(EventCalendar.add_day.asc())
+
     
     # 結果を辞書に変換
     schedules = []
@@ -208,5 +210,45 @@ def maked_calendar(make_id):
 
     # 最初の3つのタスクのみを取得
     upcoming_tasks = upcoming_tasks[:3]
-
     return render_template('myCalendar_copy.html', upcoming_tasks = upcoming_tasks, items=makes, make=make)
+
+@myCalendar_bp.route("/create_calendar/<int:make_id>", methods=['GET'])
+def createCalendar_copy(make_id):
+    # 現在の年月を取得
+    # 日付のデータ取得
+    month = int(request.args.get("month"))
+    year = int(request.args.get("year"))
+    move = int(request.args.get("move"))
+  
+    # 月の変更
+    month += move
+
+    # 年月の調整
+    if month < 1:
+        month = 12
+        year -= 1
+    elif month > 12:
+        month = 1
+        year += 1
+
+    # カレンダー生成
+    cal = calendar.Calendar()
+    my_calendar = cal.monthdayscalendar(year, month)
+
+    # データの取得
+
+    events = EventCalendar.select().where(
+            (EventCalendar.add_month == month) &
+            (EventCalendar.add_year == year) &
+            (EventCalendar.calendar_id == make_id)
+            ).order_by(EventCalendar.add_day.asc())
+
+    
+    # 結果を辞書に変換
+    schedules = []
+    for event in events:
+        schedule = event.__data__  # モデルのインスタンスを辞書に変換
+        schedules.append(schedule)
+
+    # JSONでデータを返す
+    return jsonify({"year": year, "month": month, "calendar": my_calendar, "schedules": schedules})
