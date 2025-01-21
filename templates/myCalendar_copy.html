@@ -7,8 +7,11 @@
       <script type="text/javascript" src="/static/main.js"></script>
   </head>
   <body>
+    <ul class="breadcrumb">
+      <li><a href="{{ url_for('myCalendar.list') }}">HOME</a></li>
+    </ul>
     <div class="calendar">
-      <h1>Originalカレンダー</h1>
+      <h1>{{ make.title }}</h1>
       <div class="select">
         <button id="last_month" class="move" onclick="changeMonth(-1)"></button>
         <div>
@@ -22,7 +25,7 @@
           <tbody></tbody>
         </table>
     </div>
-    <div>
+    <div></div>
       <div class="upcoming-tasks">
         <h2>期限の近いタスク</h2>
         {% if upcoming_tasks %}
@@ -51,9 +54,6 @@
              </li>
             {% endfor %}
        </ul>
-  </div>
-  <div class="complete_task">
-    <a href="/achieve_list">達成済みリスト</a>
   </div>
     </body>
 </html>

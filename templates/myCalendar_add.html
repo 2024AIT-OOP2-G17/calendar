@@ -16,8 +16,9 @@
         <div class="from-group id">
         <label>ユーザー: 
             <select name="calendar_id" required>
+                <option value="" disabled selected>選択してください</option>
                 {% for make in makes %}
-                    <option value="{{ make.title }}">{{ make.title }}</option>
+                    <option value="{{ loop.index }}">{{ make.title }}</option>
                 {% endfor %}
             </select>
         </label></div><br>

@@ -14,4 +14,5 @@ MODELS = [
 def initialize_database():
     db.connect()
     db.create_tables(MODELS, safe=True)
+    db.create_tables([EventCalendar])
     db.close()
