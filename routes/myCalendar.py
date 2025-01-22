@@ -105,7 +105,6 @@ def add(ymd):
         day = ymd - (year * 10000) - (month * 100)
         title = request.form['add_title']
         todo = request.form['add_todo']
-        calendar_id = request.form['calendar_id']
         
         # 予定を保存
         event = EventCalendar(
@@ -113,8 +112,7 @@ def add(ymd):
             add_month=month,
             add_day=day,
             add_title=title,
-            add_todo=todo,
-            calendar_id = calendar_id
+            add_todo=todo
         )
         event.save()
 
