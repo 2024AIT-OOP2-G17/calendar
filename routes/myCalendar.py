@@ -152,3 +152,9 @@ def edit(eventCalendar_id):
         calendar.save()
         return redirect(url_for('myCalendar.list'))
     return render_template('myCalendar_edit.html',eventCalendar_id=eventCalendar_id,calendar=calendar)
+
+@myCalendar_bp.route('/achieve_list')
+def achieve_list():
+    achs = Achieve.select()
+
+    return render_template('achieve_list.html', items=achs)
