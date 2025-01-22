@@ -7,7 +7,6 @@ class EventCalendar(Model):
     add_day = IntegerField()
     add_title = CharField()
     add_todo = CharField()
-    calendar_id = IntegerField()
 
     class Meta:
         database = db
